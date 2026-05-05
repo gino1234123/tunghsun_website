@@ -1,0 +1,10 @@
+<div class="product-card">
+    <a href="{{ page.url }}">
+        <div class="product-image-wrap">
+            {% if page.media.images|first %}
+                {{ page.media.images|first.html|raw }}
+            {% endif %}
+        </div>
+        <h4>{{ page.title }}</h4>
+    </a>
+</div>
