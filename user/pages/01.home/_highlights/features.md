@@ -20,8 +20,10 @@ features:
 	  linktext: "Find Out More"
 ---
 
-## We are a Small Team Doing Big Things!
+## 聯絡我們以購買產品！
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent justo ligula, interdum ut lobortis quis, interdum vitae metus. Proin fringilla metus non nulla cursus, sit amet rutrum est pretium.. 
+本網頁酒類產品由於菸酒管理法第30條第1項規定，酒之販賣不得以自動販賣機、郵購、電子購物或其他無法辨識購買者年齡之方式為之。
+
+欲購買者請由下列管道聯絡我們。
 
 ___
