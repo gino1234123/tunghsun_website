@@ -1,8 +1,9 @@
 <div class="product-card">
     <a href="{{ page.url }}">
         <div class="product-image-wrap">
-            {% if page.media.images|first %}
-                {{ page.media.images|first.html|raw }}
+            {% set product_image = page.media.images|first %}
+            {% if product_image %}
+                <img src="{{ product_image.url }}" alt="{{ page.title }}">
             {% endif %}
         </div>
         <h4>{{ page.title }}</h4>

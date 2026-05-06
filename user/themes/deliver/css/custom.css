@@ -10,6 +10,7 @@
     border-radius: 8px;
     text-align: center;
     transition: box-shadow 0.2s;
+    overflow: hidden;
 }
 
 .product-card:hover {
@@ -17,19 +18,19 @@
 }
 
 .product-image-wrap {
-    height: 300px;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #f9f9f9;
     border-radius: 8px 8px 0 0;
+    padding: 16px;
 }
 
 .product-image-wrap img {
-    max-width: 100% !important;
-    max-height: 300px !important;
-    width: auto !important;
-    height: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
     display: block;
     margin: 0 auto;
 }
