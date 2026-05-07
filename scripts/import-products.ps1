@@ -230,11 +230,11 @@ function Import-SpreadsheetRows {
             continue
         }
 
-        $categoryKey = $categoryTitle.ToLowerInvariant()
+        $categorySlugValue = Get-CellValue -Row $row -ColumnName $CategorySlugColumn
+        $categorySlug = ConvertTo-Slug -Value $categorySlugValue -Fallback (ConvertTo-Slug -Value $categoryTitle -Fallback "category-$($categoryOrder + 1)")
+        $categoryKey = $categorySlug.ToLowerInvariant()
         if (-not $categoryMap.Contains($categoryKey)) {
             $categoryOrder += 1
-            $categorySlugValue = Get-CellValue -Row $row -ColumnName $CategorySlugColumn
-            $categorySlug = ConvertTo-Slug -Value $categorySlugValue -Fallback (ConvertTo-Slug -Value $categoryTitle -Fallback "category-$categoryOrder")
             $categoryFolderName = "{0:D2}.{1}" -f $categoryOrder, $categorySlug
             $categoryMap[$categoryKey] = [ordered]@{
                 Title = $categoryTitle
@@ -250,14 +250,14 @@ function Import-SpreadsheetRows {
         }
 
         $category = $categoryMap[$categoryKey]
-        $productKey = $productTitle.ToLowerInvariant()
+        $productSlugValue = Get-CellValue -Row $row -ColumnName $ProductSlugColumn
+        $productSlug = ConvertTo-Slug -Value $productSlugValue -Fallback (ConvertTo-Slug -Value $productTitle -Fallback "product-$($category.ProductOrder + 1)")
+        $productKey = $productSlug.ToLowerInvariant()
         if ($category.ProductKeys.Contains($productKey)) {
-            throw "Duplicate product title '$productTitle' found under category '$categoryTitle'. Add a unique product_slug column if needed."
+            throw "Duplicate product slug '$productSlug' found under category '$categoryTitle'. Change the product_slug column."
         }
 
         $category.ProductOrder += 1
-        $productSlugValue = Get-CellValue -Row $row -ColumnName $ProductSlugColumn
-        $productSlug = ConvertTo-Slug -Value $productSlugValue -Fallback (ConvertTo-Slug -Value $productTitle -Fallback "product-$($category.ProductOrder)")
         $productFolderName = "{0:D2}.{1}" -f $category.ProductOrder, $productSlug
         $productPath = Join-Path $category.Path $productFolderName
         $category.ProductKeys[$productKey] = $productFolderName
@@ -377,7 +377,7 @@ if (-not [string]::IsNullOrWhiteSpace($ImageRoot)) {
     $resolvedImageRoot = Resolve-FullPath -Path $ImageRoot
 }
 
-$rows = Import-SourceRows -ResolvedSourceFile $resolvedSourceFile
+$rows = @(Import-SourceRows -ResolvedSourceFile $resolvedSourceFile)
 if (-not $rows -or $rows.Count -eq 0) {
     throw "No rows found in source file: $resolvedSourceFile"
 }
