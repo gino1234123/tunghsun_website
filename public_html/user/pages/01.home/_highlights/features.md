@@ -3,21 +3,21 @@ title: Service Highlights
 menu: Highlights
 class: big
 features:
-	- header: First Service
-	  text: "Sed posuere consectetur est at lobortis. Vivamus aoreet faucibus dolor auctor."
-	  icon: comment-o
-	  linkurl: "http://www.getgrav.org" 
-	  linktext: "Find Out More"
-	- header: Second Service
-	  text: "Duis mollis, est non commodo eget urna mollis ornare vel eu leo faucibus."
-	  icon: heart-o
-	  linkurl: "http://www.getgrav.org" 
-	  linktext: "Find Out More"
-	- header: Third Service
-	  text: "Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor."
-	  icon: star-o
-	  linkurl: "http://www.getgrav.org" 
-	  linktext: "Find Out More"
+	- header: "電話"
+	  text: "撥打市話(03)427-2021或(03)426-8448，為您立即服務！"
+	  icon: phone
+	  linkurl: "tel: 034272027" 
+	  linktext: "撥打電話"
+	- header: "FB粉專"
+	  text: "按下按鈕加入Facebook粉絲專頁，私訊我們訂購產品及獲得最新資訊！"
+	  icon: facebook
+	  linkurl: "https://www.facebook.com/beer70881920" 
+	  linktext: "加入粉專"
+	- header: "Line@"
+	  text: "按下按鈕加入同洵洋行Line@官方帳號，私訊我們訂購產品及獲得最新資訊！"
+	  icon: comments
+	  linkurl: "https://line.me/R/ti/p/@127prwec" 
+	  linktext: "加入LINE"
 ---
 
 ## 聯絡我們以購買產品！
@@ -26,4 +26,4 @@ features:
 
 欲購買者請由下列管道聯絡我們。
 
-___
+---

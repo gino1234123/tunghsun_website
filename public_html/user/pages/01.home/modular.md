@@ -1,6 +1,5 @@
 ---
-title: Home
-menu: Home
+title: 首頁
 onpage_menu: false
 body_classes: "modular header-image fullwidth"
 
@@ -14,5 +13,3 @@ content:
             - _highlights
             - _contact
 ---
-
-
