@@ -71,6 +71,43 @@
     display: block;
 }
 
+.site-logo-link {
+    display: inline-flex;
+    align-items: center;
+}
+
+.site-logo {
+    display: block;
+    max-height: 64px;
+    width: auto;
+}
+
+@media (max-width: 768px) {
+    .site-logo {
+        max-height: 46px;
+    }
+}
+
+/* Keep logo vertically centered without using padding */
+#header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header .logo h3,
+#header .logo .site-logo-link,
+#header .logo ul.social-icons {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#header .logo ul.social-icons {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
 /* Multi-level navbar: desktop + mobile, click-to-expand, and scroll-safe menus */
 #header #navbar ul.navigation li .nav-item-row,
 #panel .navigation li .nav-item-row {

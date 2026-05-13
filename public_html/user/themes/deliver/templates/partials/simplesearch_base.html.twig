@@ -1,3 +1,4 @@
+{% set theme_config = attribute(config.themes, config.system.pages.theme) %}
 <!DOCTYPE html>
 <html lang="{{ grav.language.getLanguage ?: 'en' }}">
 <head>
@@ -42,7 +43,10 @@
         {% block header %}
         <header id="header">
                 <div class="logo">
-                    <h3><a href="{{ base_url == '' ? '/' : base_url }}">{{ config.site.title }}</a></h3>
+                    {% set logo_file = theme_config.logo|default('theme://images/logo.png') %}
+                    <a href="{{ base_url == '' ? '/' : base_url }}" class="site-logo-link">
+                        <img src="{{ url(logo_file) }}" alt="{{ config.site.title }}" class="site-logo">
+                    </a>
                     {% block social %}
                         {% include 'partials/social.html.twig' %}
                     {% endblock %}

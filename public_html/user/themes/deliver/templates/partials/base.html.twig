@@ -50,7 +50,10 @@
         {% block header %}
         <header id="header">
                 <div class="logo">
-                    <h3><a href="{{ base_url_absolute }}">{{ config.site.title }}</a></h3>
+                    {% set logo_file = theme_config.logo|default('theme://images/logo.png') %}
+                    <a href="{{ base_url_absolute }}" class="site-logo-link">
+                        <img src="{{ url(logo_file) }}" alt="{{ config.site.title }}" class="site-logo">
+                    </a>
                     {% block social %}
                         {% include 'partials/social.html.twig' %}
                     {% endblock %}
@@ -60,7 +63,6 @@
                     {% block header_navigation %}
                     {% include 'partials/navigation.html.twig' %}
                     {% endblock %}
-                    {% include 'partials/search.html.twig' %}
                     <span class="panel-activation sb-toggle-left navbar-left menu-btn fa fa-bars"></span>
                 </div>
         </header>
