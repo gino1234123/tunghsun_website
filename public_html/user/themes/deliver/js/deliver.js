@@ -33,6 +33,123 @@ jQuery(document).ready(function($){
 	});
 	// Responsive Menu
 
+    function isDesktopMenu() {
+        return window.matchMedia("(min-width: 960px)").matches;
+    }
+
+    function positionDesktopFlyout($item) {
+        if (!isDesktopMenu() || !$item.closest("#header #navbar").length) {
+            return;
+        }
+
+        var $submenu = $item.children(".submenu");
+        if (!$submenu.length) {
+            return;
+        }
+
+        var isNested = $item.parents(".submenu").length > 0;
+        if (!isNested) {
+            return;
+        }
+
+        var rowRect = $item.children(".nav-item-row")[0].getBoundingClientRect();
+        var parentColumn = $item.closest("ul.submenu")[0];
+        var parentRect = parentColumn ? parentColumn.getBoundingClientRect() : rowRect;
+        var submenuWidth = $submenu.outerWidth() || 224;
+        var left = parentRect.right - 1;
+        var rightLimit = window.innerWidth - 12;
+
+        if (left + submenuWidth > rightLimit) {
+            left = Math.max(12, parentRect.left - submenuWidth + 1);
+        }
+
+        var top = Math.max(12, rowRect.top);
+        var maxHeight = Math.max(160, window.innerHeight - top - 12);
+
+        $submenu.css({
+            left: left + "px",
+            top: top + "px",
+            maxHeight: maxHeight + "px"
+        });
+    }
+
+    function resetDesktopFlyout($item) {
+        var $submenu = $item.children(".submenu");
+        if (!$submenu.length) {
+            return;
+        }
+        if ($item.parents(".submenu").length > 0) {
+            $submenu.css({ left: "-9999px", top: "-9999px" });
+        }
+    }
+
+    function setupExpandableMenu(containerSelector) {
+        var $menu = $(containerSelector);
+        if (!$menu.length) {
+            return;
+        }
+
+        $menu.find("li.has-children").each(function () {
+            var $item = $(this);
+            var $toggle = $item.children(".nav-item-row").find("> .submenu-toggle");
+            var $submenu = $item.children(".submenu");
+            if ($toggle.length && $submenu.length) {
+                $submenu.attr("aria-hidden", "true");
+                $toggle.attr("aria-expanded", "false");
+            }
+        });
+
+        $menu.on("click", ".submenu-toggle", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var $toggle = $(this);
+            var $item = $toggle.closest("li.has-children");
+            var isOpen = $item.hasClass("nav-open");
+
+            $item.siblings(".nav-open").each(function () {
+                var $sib = $(this);
+                $sib.removeClass("nav-open");
+                $sib.find("> .nav-item-row > .submenu-toggle").attr("aria-expanded", "false");
+                $sib.find("> .submenu").attr("aria-hidden", "true");
+                resetDesktopFlyout($sib);
+            });
+
+            $item.toggleClass("nav-open", !isOpen);
+            $toggle.attr("aria-expanded", String(!isOpen));
+            $item.children(".submenu").attr("aria-hidden", String(isOpen));
+
+            if (!isOpen) {
+                positionDesktopFlyout($item);
+            } else {
+                resetDesktopFlyout($item);
+            }
+        });
+
+        $(document).on("click", function (event) {
+            if (!$(event.target).closest(containerSelector).length) {
+                $menu.find("li.nav-open").removeClass("nav-open");
+                $menu.find(".submenu-toggle").attr("aria-expanded", "false");
+                $menu.find(".submenu").attr("aria-hidden", "true");
+                $menu.find("li.has-children").each(function () {
+                    resetDesktopFlyout($(this));
+                });
+            }
+        });
+
+        $(window).on("resize scroll", function () {
+            if (!isDesktopMenu()) {
+                return;
+            }
+            $menu.find("li.nav-open").each(function () {
+                positionDesktopFlyout($(this));
+            });
+        });
+    }
+
+    setupExpandableMenu("#header #navbar .navigation");
+    setupExpandableMenu("#panel .navigation");
+
 });
 
 $('div.modal').on('show.bs.modal', function() {

@@ -1,15 +1,24 @@
-{% macro loop(page) %}
+{% macro loop(page, level) %}
     {% for p in page.children %}
         {% if p.visible %}
             {% set current_page = (p.active or p.activeChild) ? 'active' : '' %}
-            <li class="{{ current_page }}">
-                <a href="{{ p.url }}">
-                    {% if p.header.icon %}<i class="fa fa-{{ p.header.icon }}"></i>{% endif %}
-                    {{ p.menu }}
-                </a>
-                {% if p.children.count > 0 %}
-                    <ul>
-                        {{ _self.loop(p) }}
+            {% set visible_children = p.children.visible %}
+            {% set has_children = (visible_children.count > 0) and (level < 2) %}
+            <li class="{{ current_page }} nav-level-{{ level }}{% if has_children %} has-children{% endif %}">
+                <div class="nav-item-row">
+                    <a href="{{ p.url }}">
+                        {% if p.header.icon %}<i class="fa fa-{{ p.header.icon }}"></i>{% endif %}
+                        {{ p.menu }}
+                    </a>
+                    {% if has_children %}
+                        <button class="submenu-toggle" type="button" aria-expanded="false" aria-label="展開 {{ p.menu }} 子選單">
+                            <span class="submenu-caret" aria-hidden="true"></span>
+                        </button>
+                    {% endif %}
+                </div>
+                {% if has_children %}
+                    <ul class="submenu level-{{ level + 1 }}">
+                        {{ _self.loop(p, level + 1) }}
                     </ul>
                 {% endif %}
             </li>
@@ -19,7 +28,7 @@
 
 <ul class="navigation">
     {% if theme_config.dropdown.enabled %}
-        {{ _self.loop(pages) }}
+        {{ _self.loop(pages, 1) }}
     {% else %}
         {% for page in pages.children %}
             {% if page.visible %}
